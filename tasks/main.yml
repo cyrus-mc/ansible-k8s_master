@@ -1,0 +1,30 @@
+---
+- name: Create /etc/kubernets/manifests
+  file:
+    path: /etc/kubernetes/{{item}}
+    state: directory
+    recurse: yes
+  with_items: [ "manifests", "ssl", "cni" ]
+
+- name: Write Kubernetes Manifests
+  template:
+    src: "{{ item }}.yaml.j2"
+    dest: /etc/kubernetes/manifests/{{item}}.yaml
+    mode: 0644
+  with_items: [ "kube-apiserver", "kube-proxy", "kube-controller-manager", "kube-scheduler" ]
+  tags: kubernetes-manifest
+
+- name: Kubelet systemd service
+  template:
+    src: kubelet.service.j2
+    dest: /etc/systemd/system/kubelet.service
+    mode: 0644
+  notify:
+  - k8s_master_kubelet_systemd
+  tags: kubelet
+
+- name: Kubelet start
+  systemd:
+    name: kubelet
+    enabled: yes
+    state: started
