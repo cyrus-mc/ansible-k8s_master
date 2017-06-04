@@ -14,6 +14,7 @@ spec:
     - --bind-address=0.0.0.0
     - --etcd-servers=http://{{ ansible_local.k8s_facts.etcd_elb }}:2379
     - --allow-privileged=true
+    - --apiserver-count={{ ansible_local.k8s_facts.api_servers }}
     - --service-cluster-ip-range={{ vars.kubernetes.service_ip_range }}
     - --secure-port=443
     - --advertise-address={{ ansible_eth0.ipv4.address }}
