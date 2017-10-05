@@ -1,3 +1,13 @@
+{% set static_nodes = [] %}
+{% if etcd_endpoints is sequence and etcd_endpoints is not string %}
+{% for server in etcd_endpoints %}
+{% set infra = "http://%s:2379" % (server) %}
+{% set _ = static_nodes.append(infra) %}
+{% endfor %}
+{% else %}
+{% set infra = "http://%s:2379" % (etcd_endpoints) %}
+{% set _ = static_nodes.append(infra) %}
+{% endif %}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -12,7 +22,7 @@ spec:
     - /hyperkube
     - apiserver
     - --bind-address=0.0.0.0
-    - --etcd-servers=http://{{ ansible_local.k8s_facts.etcd_servers }}:2379
+    - --etcd-servers={{ static_nodes | join(',') }}
     - --allow-privileged=true
     - --apiserver-count={{ ansible_local.k8s_facts.api_servers }}
     - --service-cluster-ip-range={{ vars.kubernetes.service_ip_range }}
