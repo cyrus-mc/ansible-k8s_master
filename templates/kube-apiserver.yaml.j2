@@ -26,14 +26,23 @@ spec:
     - --allow-privileged=true
     - --apiserver-count={{ ansible_local.k8s_facts.api_servers }}
     - --service-cluster-ip-range={{ vars.kubernetes.service_ip_range }}
+    - --authorization-mode=RBAC
     - --secure-port=443
+    - --audit-log-maxage=30
+    - --audit-log-maxbackup=3
+    - --audit-log-maxsize=100
+    - --audit-log-path=/var/log/audit.log
+    - --enable-swagger-ui=true
+    - --event-ttl=1h
     - --advertise-address={{ ansible_eth0.ipv4.address }}
-    - --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota
+    - --insecure-bind-address=127.0.0.1
+    - --kubelet-https=true
+    - --admission-control=Initializers,NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota
     - --tls-cert-file=/etc/kubernetes/ssl/apiserver.pem
     - --tls-private-key-file=/etc/kubernetes/ssl/apiserver-key.pem
     - --client-ca-file=/etc/kubernetes/ssl/ca.pem
     - --service-account-key-file=/etc/kubernetes/ssl/apiserver-key.pem
-    - --runtime-config=extensions/v1beta1/networkpolicies=true
+    - --runtime-config=extensions/v1beta1/networkpolicies=true,api/all
     - --anonymous-auth=false
     - --cloud-provider=aws
     livenessProbe:
