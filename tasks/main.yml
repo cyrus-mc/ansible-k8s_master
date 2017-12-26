@@ -14,6 +14,12 @@
   with_items: [ "kube-apiserver", "kube-controller-manager", "kube-scheduler" ]
   tags: kubernetes-manifest
 
+- name: write kubelet kubeconfig
+  copy:
+    src: kubeconfig.yaml
+    dest: /etc/kubernetes/kubeconfig.yaml
+  mode: 0644
+
 - name: Kubelet systemd service
   template:
     src: kubelet.service.j2
