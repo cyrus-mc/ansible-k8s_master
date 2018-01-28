@@ -4,14 +4,14 @@
     path: /etc/kubernetes/{{item}}
     state: directory
     recurse: yes
-  with_items: [ "manifests", "ssl", "cni" ]
+  with_items: [ "manifests", "ssl", "cni", "addons", "admission-controls" ]
 
 - name: Write Kubernetes Manifests
   template:
     src: "{{ item }}.yaml.j2"
     dest: /etc/kubernetes/manifests/{{item}}.yaml
     mode: 0644
-  with_items: [ "kube-apiserver", "kube-controller-manager", "kube-scheduler" ]
+  with_items: [ "kube-apiserver", "kube-controller-manager", "kube-scheduler", "kube-addon-manager" ]
   tags: kubernetes-manifest
 
 - name: write kubelet kubeconfig
@@ -19,6 +19,10 @@
     src: kubeconfig.yaml
     dest: /etc/kubernetes/kubeconfig.yaml
   mode: 0644
+
+- include: addon-tiller.yml
+
+- include: addon-kube-dns.yml
 
 - name: Kubelet systemd service
   template:

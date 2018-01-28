@@ -1,2 +1,12 @@
 # list of entcd servers that form the cluster
 etcd_endpoints: []
+
+k8s_addon_manager:
+  image: gcr.io/google-containers/kube-addon-manager
+  tag: v8.5
+
+k8s_addons:
+  tiller:
+    enable: true
+    image: gcr.io/kubernetes-helm/tiller
+    tag: v2.7.0
