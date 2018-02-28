@@ -20,9 +20,16 @@
     dest: /etc/kubernetes/kubeconfig.yaml
   mode: 0644
 
-- include: addon-tiller.yml
-
-- include: addon-kube-dns.yml
+- name: install addon(s)
+  template:
+    src: "addons/{{ item }}/{{ item }}.yaml.j2"
+    dest: "/etc/kubernetes/addons/{{ item }}.yaml"
+    mode: 0644
+    owner: root
+    group: root
+  with_items:
+    - kube-dns
+    - tiller
 
 - name: Kubelet systemd service
   template:

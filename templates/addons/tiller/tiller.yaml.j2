@@ -1,3 +1,22 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tiller
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: tiller
+  namespace: kube-system
+
+
+---
+
+
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -68,3 +87,40 @@ spec:
       serviceAccount: tiller
       serviceAccountName: tiller
       terminationGracePeriodSeconds: 30
+
+
+---
+
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+  name: tiller
+  namespace: kube-system
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: helm
+    name: tiller
+    addonmanager.kubernetes.io/mode: Reconcile
+  name: tiller-deploy
+  namespace: kube-system
+spec:
+  ports:
+  - name: tiller
+    port: 44134
+    protocol: TCP
+    targetPort: tiller
+  selector:
+    app: helm
+    name: tiller
+  sessionAffinity: None
+  type: ClusterIP

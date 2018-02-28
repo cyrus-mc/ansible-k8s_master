@@ -6,6 +6,8 @@ k8s_addon_manager:
   tag: v8.5
 
 k8s_addons:
+  kube-dns:
+    enable: true
   tiller:
     enable: true
     image: gcr.io/kubernetes-helm/tiller
