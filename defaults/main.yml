@@ -12,3 +12,6 @@ k8s_addons:
     enable: true
     image: gcr.io/kubernetes-helm/tiller
     tag: v2.7.0
+  ark:
+    enable: true
+    s3_bucket_name: ark.dat-test.org

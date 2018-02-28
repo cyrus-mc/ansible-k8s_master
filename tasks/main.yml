@@ -30,6 +30,7 @@
   with_items:
     - kube-dns
     - tiller
+    - ark
 
 - name: Kubelet systemd service
   template:
