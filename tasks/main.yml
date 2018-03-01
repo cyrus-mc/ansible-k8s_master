@@ -31,6 +31,7 @@
     - kube-dns
     - tiller
     - ark
+    - alb-ingress
 
 - name: Kubelet systemd service
   template:
