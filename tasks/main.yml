@@ -11,7 +11,7 @@
     src: "{{ item }}.yaml.j2"
     dest: /etc/kubernetes/manifests/{{item}}.yaml
     mode: 0644
-  with_items: [ "kube-apiserver", "kube-controller-manager", "kube-scheduler", "kube-addon-manager" ]
+  with_items: [ "kube-apiserver", "kube-proxy", "kube-controller-manager", "kube-scheduler", "kube-addon-manager" ]
   tags: kubernetes-manifest
 
 - name: write kubelet kubeconfig
