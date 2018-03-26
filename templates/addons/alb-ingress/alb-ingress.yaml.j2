@@ -1,3 +1,4 @@
+{% if k8s_master_alb_ingress_enable == true %}
 ---
 
 apiVersion: v1
@@ -210,3 +211,4 @@ spec:
       securityContext: {}
       serviceAccountName: alb-ingress
       terminationGracePeriodSeconds: 30
+{% endif %}

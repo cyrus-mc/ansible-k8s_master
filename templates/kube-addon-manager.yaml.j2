@@ -7,7 +7,7 @@ spec:
   hostNetwork: true
   containers:
   - name: kube-addon-maanager
-    image: {{ k8s_addon_manager.image }}:{{ k8s_addon_manager.tag }}
+    image: {{ k8s_master_addon_manager_image }}:{{ k8s_master_addon_manager_tag }}
     imagePullPolicy: IfNotPresent
     resources:
       requests:

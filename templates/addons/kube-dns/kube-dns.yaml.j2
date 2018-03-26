@@ -1,3 +1,4 @@
+{% if k8s_master_kube_dns_enable == true %}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,9 +7,7 @@ metadata:
   labels:
     addonmanager.kubernetes.io/mode: Reconcile
 
-
 ---
-
 
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -163,9 +162,7 @@ spec:
       dnsPolicy: Default  # Don't use cluster DNS.
       serviceAccountName: kube-dns
 
-
 ---
-
 
 apiVersion: v1
 kind: ServiceAccount
@@ -175,9 +172,7 @@ metadata:
   labels:
     addonmanager.kubernetes.io/mode: Reconcile
 
-
 ---
-
 
 apiVersion: v1
 kind: Service
@@ -199,3 +194,4 @@ spec:
   - name: dns-tcp
     port: 53
     protocol: TCP
+{% endif %}

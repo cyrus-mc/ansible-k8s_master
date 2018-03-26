@@ -19,7 +19,7 @@ spec:
   hostNetwork: true
   containers:
   - name: kube-apiserver
-    image: {{ vars.hyperkube.image }}:{{ vars.hyperkube.tag }}
+    image: {{ k8s_master_hyperkube_image }}:{{ k8s_master_hyperkube_tag }}
     command:
     - /hyperkube
     - apiserver
@@ -27,7 +27,7 @@ spec:
     - --etcd-servers={{ static_nodes | join(',') }}
     - --allow-privileged=true
     - --apiserver-count={{ ansible_local.k8s_facts.api_servers }}
-    - --service-cluster-ip-range={{ vars.kubernetes.service_ip_range }}
+    - --service-cluster-ip-range={{ k8s_master_service_network }}
     - --authorization-mode=RBAC
     - --secure-port=443
     - --audit-log-maxage=30
