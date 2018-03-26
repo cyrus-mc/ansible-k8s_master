@@ -1,17 +1,23 @@
+---
+
+k8s_master_network_plugin: cni
+k8s_master_service_network: 10.3.0.0/24
+k8s_master_pod_network: 10.2.0.0/16
+k8s_master_dns_service: 10.3.0.10
+
 # list of entcd servers that form the cluster
 etcd_endpoints: []
 
-k8s_addon_manager:
-  image: gcr.io/google-containers/kube-addon-manager
-  tag: v8.5
+k8s_master_addon_manager_image: gcr.io/google-containers/kube-addon-manager
+k8s_master_addon_manager_tag: v8.5
 
-k8s_addons:
-  kube-dns:
-    enable: true
-  tiller:
-    enable: true
-    image: gcr.io/kubernetes-helm/tiller
-    tag: v2.7.0
-  ark:
-    enable: true
-    s3_bucket_name: ark.dat-test.org
+k8s_master_kube_dns_enable: true
+
+k8s_master_tiller_enable: true
+k8s_master_tiller_image: gcr.io/kubernetes-helm/tiller
+k8s_master_tiller_tag: v2.8.2
+
+k8s_master_ark_enable: false
+k8s_master_ark_s3_bucket: kubernetes.org
+
+k8s_master_alb_ingress_enable: false

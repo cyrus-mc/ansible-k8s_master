@@ -9,17 +9,17 @@ spec:
   hostNetwork: true
   containers:
   - name: kube-controller-manager
-    image: {{ vars.hyperkube.image }}:{{ vars.hyperkube.tag }}
+    image: {{ k8s_master_hyperkube_image }}:{{ k8s_master_hyperkube_tag }}
     command:
     - /hyperkube
     - controller-manager
     - --address=0.0.0.0
-    - --cluster-cidr={{ vars.kubernetes.pod_network }}
+    - --cluster-cidr={{ k8s_master_pod_network }}
     - --master=http://127.0.0.1:8080
     - --leader-elect=true
     - --service-account-private-key-file=/etc/kubernetes/ssl/apiserver-key.pem
     - --root-ca-file=/etc/kubernetes/ssl/ca.pem
-    - --service-cluster-ip-range={{ vars.kubernetes.service_ip_range }}
+    - --service-cluster-ip-range={{ k8s_master_service_network }}
     - --cloud-provider=aws
     resources:
       requests:
