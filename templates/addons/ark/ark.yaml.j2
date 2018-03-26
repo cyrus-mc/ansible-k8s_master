@@ -1,3 +1,4 @@
+{% if k8s_master_ark_enable == true %}
 # Copyright 2017 the Heptio Ark contributors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -150,7 +151,7 @@ persistentVolumeProvider:
     region: us-west-2
 backupStorageProvider:
   name: aws
-  bucket: {{ k8s_addons.ark.s3_bucket_name }}
+  bucket: {{ k8s_master_ark_s3_bucket }}
   config:
     region: us-west-2
 backupSyncPeriod: 30m
@@ -190,4 +191,4 @@ spec:
       volumes:
         - name: plugins
           emptyDir: {}
-
+{% endif %}
