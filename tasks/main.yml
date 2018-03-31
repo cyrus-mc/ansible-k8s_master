@@ -32,6 +32,7 @@
     - tiller
     - ark
     - alb-ingress
+    - external-dns
 
 - name: Kubelet systemd service
   template:

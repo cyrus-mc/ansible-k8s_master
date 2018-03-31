@@ -1,0 +1,76 @@
+{% if k8s_master_external_dns_enable == true %}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+  name: external-dns
+  namespace: kube-system
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+  name: external-dns
+rules:
+- apiGroups: [ "" ]
+  resources: [ "services" ]
+  verbs: [ "get", "watch", "list" ]
+- apiGroups: [ "extensions" ]
+  resources: [ "ingresses" ]
+  verbs: [ "get", "watch", "list" ]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+  name: external-dns-viewer
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: external-dns
+subjects:
+- kind: ServiceAccount
+  name: external-dns
+  namespace: kube-system
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+  name: external-dns
+  namespace: kube-system
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: external-dns
+    spec:
+      serviceAccountName: external-dns
+      containers:
+      - name: external-dns
+        image: {{ k8s_master_external_dns_image }}:{{ k8s_master_external_dns_tag }}
+        args:
+        - --source=service
+        - --source=ingress
+{% if k8s_master_external_dns_domain_filter is defined %}
+        - --domain-filter={{ k8s_master_external_dns_domain_filter }} # will make ExternalDNS see only the hosted zones matching provided domain, omit to process all available hosted zones
+{% endif %}
+        - --provider=aws
+        - --policy=upsert-only # would prevent ExternalDNS from deleting any records, omit to enable full synchronizati
+on
+        - --aws-zone-type={{ k8s_master_external_dns_zone_type | default('public') }} # only look at public hosted zones (valid values are public, private or no value for both)
+        - --registry=txt
+        - --txt-owner-id=k8s-route53
+{% endif %}

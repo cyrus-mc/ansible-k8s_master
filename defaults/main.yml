@@ -21,3 +21,7 @@ k8s_master_ark_enable: false
 k8s_master_ark_s3_bucket: kubernetes.org
 
 k8s_master_alb_ingress_enable: false
+
+k8s_master_external_dns_enable: false
+k8s_master_external_dns_image: registry.opensource.zalan.do/teapot/external-dns
+k8s_master_external_dns_tag: v0.4.8
