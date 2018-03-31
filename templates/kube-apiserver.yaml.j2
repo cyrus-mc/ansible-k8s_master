@@ -43,6 +43,7 @@ spec:
     - --tls-cert-file=/etc/kubernetes/ssl/apiserver.pem
     - --tls-private-key-file=/etc/kubernetes/ssl/apiserver-key.pem
     - --client-ca-file=/etc/kubernetes/ssl/ca.pem
+    - --requestheader-client-ca-file=/etc/kubernetes/ssl/ca.pem
     - --service-account-key-file=/etc/kubernetes/ssl/apiserver-key.pem
     - --runtime-config=extensions/v1beta1/networkpolicies=true,api/all
     - --anonymous-auth=false
