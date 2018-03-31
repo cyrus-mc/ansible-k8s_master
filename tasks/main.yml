@@ -33,6 +33,7 @@
     - ark
     - alb-ingress
     - external-dns
+    - metrics-server
 
 - name: Kubelet systemd service
   template:

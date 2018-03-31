@@ -25,3 +25,7 @@ k8s_master_alb_ingress_enable: false
 k8s_master_external_dns_enable: false
 k8s_master_external_dns_image: registry.opensource.zalan.do/teapot/external-dns
 k8s_master_external_dns_tag: v0.4.8
+
+k8s_master_metrics_server_enabled: false
+k8s_master_metrics_server_image: gcr.io/google_containers/metrics-server-amd64
+k8s_master_metrics_server_tag: v0.2.1
