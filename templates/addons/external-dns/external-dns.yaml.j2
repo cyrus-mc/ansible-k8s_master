@@ -69,7 +69,9 @@ spec:
 {% endif %}
         - --provider=aws
         - --policy=upsert-only # prevent ExternalDNS from deleting any records, omit to enable full synchronization
-        - --aws-zone-type={{ k8s_master_external_dns_zone_type | default('public') }} # only look at public hosted zones (valid values are public, private or no value for both)
+{% if k8s_master_external_dns_zone_type is defined %}
+        - --aws-zone-type={{ k8s_master_external_dns_zone_type }} # only look at public hosted zones (valid values are public, private or no value for both)
+{% endif %}
         - --registry=txt
         - --txt-owner-id=k8s-route53
 {% endif %}
