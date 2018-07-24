@@ -34,6 +34,7 @@
     - alb-ingress
     - external-dns
     - metrics-server
+    - cluster-autoscaler
 
 - name: Kubelet systemd service
   template:
